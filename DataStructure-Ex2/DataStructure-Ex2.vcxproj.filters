@@ -18,18 +18,27 @@
     <ClCompile Include="DataStructure-Ex2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BSTreeNode.cpp">
+    <ClCompile Include="BSTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BSTree.cpp">
+    <ClCompile Include="MinHeap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BSTreeNode.h">
+    <ClInclude Include="BSTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BSTree.h">
+    <ClInclude Include="Pair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MinHeap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

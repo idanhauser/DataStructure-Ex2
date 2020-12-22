@@ -1,17 +1,17 @@
-﻿#include "BSTreeNode.h"
+﻿#include "TreeNode.h"
 
 #include <iostream>
 using namespace std;
 
-BSTreeNode::BSTreeNode() :_right(nullptr), _left(nullptr)
+TreeNode::TreeNode() :_right(nullptr), _left(nullptr)
 {
 }
 
-BSTreeNode::BSTreeNode(Pair item, BSTreeNode* left, BSTreeNode* right) : _data(item), _left(left), _right(right)
+TreeNode::TreeNode(Pair item, TreeNode* left, TreeNode* right) : _data(item), _left(left), _right(right)
 {
 }
 
-BSTreeNode::~BSTreeNode()
+TreeNode::~TreeNode()
 {
 	if (_left != nullptr)
 	{
@@ -27,7 +27,7 @@ BSTreeNode::~BSTreeNode()
 
 
 
-void BSTreeNode::Inorder()
+void TreeNode::Inorder()
 {
 	if (_left != nullptr)
 	{

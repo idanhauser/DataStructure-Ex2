@@ -20,9 +20,9 @@ void BSTree::makeEmpty()
 	_root = nullptr;
 }
 
-BSTreeNode* BSTree::Find(char key)
+TreeNode* BSTree::Find(char key)
 {
-	BSTreeNode* temp = _root;
+	TreeNode* temp = _root;
 	while (temp != nullptr)
 	{
 		if (key == (temp->_data).key)
@@ -44,7 +44,7 @@ BSTreeNode* BSTree::Find(char key)
 
 Pair BSTree::FindMin(char key)
 {
-	BSTreeNode* current = _root;
+	TreeNode* current = _root;
 
 	/* loop down to find the leftmost leaf */
 	while (current->_left != nullptr)
@@ -57,7 +57,7 @@ Pair BSTree::FindMin(char key)
 
 Pair BSTree::FindMax(char key)
 {
-	BSTreeNode* current = _root;
+	TreeNode* current = _root;
 	/* loop down to find the rightmost leaf */
 
 	while (current->_right != nullptr)
@@ -78,9 +78,9 @@ void BSTree::Insert(Pair item)
 	}
 	else
 	{
-		BSTreeNode* temp = _root;
-		BSTreeNode* parent = nullptr;
-		BSTreeNode* newNode = nullptr;
+		TreeNode* temp = _root;
+		TreeNode* parent = nullptr;
+		TreeNode* newNode = nullptr;
 
 		while (temp != nullptr)
 		{
@@ -94,7 +94,7 @@ void BSTree::Insert(Pair item)
 				temp = temp->_right;
 			}
 		}
-		newNode = new BSTreeNode(item, nullptr, nullptr);
+		newNode = new TreeNode(item, nullptr, nullptr);
 		if (parent == nullptr)
 		{
 			_root = newNode;
@@ -112,8 +112,8 @@ void BSTree::Insert(Pair item)
 
 void BSTree::Delete(char key)
 {
-	BSTreeNode* curr = _root;
-	BSTreeNode* prev = nullptr;
+	TreeNode* curr = _root;
+	TreeNode* prev = nullptr;
 	while (curr != nullptr && curr->_data.key != key) {
 		prev = curr;
 		if (key < curr->_data.key)
@@ -131,7 +131,7 @@ void BSTree::Delete(char key)
 		exit(1);
 	}
 	if (curr->_left == nullptr || curr->_right == nullptr) {
-		BSTreeNode* newCurr = nullptr;
+		TreeNode* newCurr = nullptr;
 		if (curr->_left == nullptr)
 		{
 			newCurr = curr->_right;
@@ -156,8 +156,8 @@ void BSTree::Delete(char key)
 		delete curr;
 	}
 	else {
-		BSTreeNode* p = nullptr;
-		BSTreeNode* temp = nullptr;
+		TreeNode* p = nullptr;
+		TreeNode* temp = nullptr;
 
 		temp = curr->_right;
 		while (temp->_left != nullptr) {

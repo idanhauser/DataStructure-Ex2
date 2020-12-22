@@ -140,12 +140,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BSTree.cpp" />
-    <ClCompile Include="BSTreeNode.cpp" />
+    <ClCompile Include="TreeNode.cpp" />
     <ClCompile Include="DataStructure-Ex2.cpp" />
+    <ClCompile Include="MinHeap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BSTree.h" />
-    <ClInclude Include="BSTreeNode.h" />
+    <ClInclude Include="TreeNode.h" />
+    <ClInclude Include="MinHeap.h" />
+    <ClInclude Include="Pair.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
