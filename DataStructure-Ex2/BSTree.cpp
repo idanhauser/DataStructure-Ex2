@@ -2,92 +2,185 @@
 #include<iostream>
 using namespace std;
 
-BSTree::BSTree() :root(nullptr)
+BSTree::BSTree() :_root(nullptr)
 {
 }
 
 BSTree::~BSTree()
 {
+	makeEmpty();
+}
+
+void BSTree::makeEmpty()
+{
+	if (_root != nullptr)
+	{
+		delete _root;
+	}
+	_root = nullptr;
 }
 
 BSTreeNode* BSTree::Find(char key)
 {
-	BSTreeNode* temp = root;
+	BSTreeNode* temp = _root;
 	while (temp != nullptr)
 	{
-		if (key == (temp->value).data)
+		if (key == (temp->_data).key)
 		{
 			return temp;
 		}
-		else if (key < (temp->value).data)
+		else if (key < (temp->_data).key)
 		{
-			temp = temp->left;
+			temp = temp->_left;
 		}
 		else
 		{
-			temp = temp->right;
+			temp = temp->_right;
 		}
 	}
 
 	return nullptr;
 }
 
+Pair BSTree::FindMin(char key)
+{
+	BSTreeNode* current = _root;
+
+	/* loop down to find the leftmost leaf */
+	while (current->_left != nullptr)
+	{
+		current = current->_left;
+	}
+
+	return current->_data;
+}
+
+Pair BSTree::FindMax(char key)
+{
+	BSTreeNode* current = _root;
+	/* loop down to find the rightmost leaf */
+
+	while (current->_right != nullptr)
+		current = current->_right;
+
+	return current->_data;
+}
+
+
+
 void BSTree::Insert(Pair item)
 {
 
-	if (Find(item.data) != nullptr)
+	if (Find(item.key) != nullptr)
 	{
 		cout << "Key and value already in the tree" << endl;
 		exit(1);
 	}
 	else
 	{
-		BSTreeNode* temp = root;
+		BSTreeNode* temp = _root;
 		BSTreeNode* parent = nullptr;
 		BSTreeNode* newNode = nullptr;
 
 		while (temp != nullptr)
 		{
 			parent = temp;
-			if (item.data < (temp->value).data)
+			if (item.key < (temp->_data).key)
 			{
-				temp = temp->left;
+				temp = temp->_left;
 			}
 			else
 			{
-				temp = temp->right;
+				temp = temp->_right;
 			}
 		}
 		newNode = new BSTreeNode(item, nullptr, nullptr);
 		if (parent == nullptr)
 		{
-			root = newNode;
+			_root = newNode;
 		}
-		else if (item.data < (parent->value).data)
+		else if (item.key < (parent->_data).key)
 		{
-			parent->left = newNode;
+			parent->_left = newNode;
 		}
 		else
 		{
-			parent->right = newNode;
+			parent->_right = newNode;
 		}
 	}
 }
 
 void BSTree::Delete(char key)
 {
+	BSTreeNode* curr = _root;
+	BSTreeNode* prev = nullptr;
+	while (curr != nullptr && curr->_data.key != key) {
+		prev = curr;
+		if (key < curr->_data.key)
+		{
+			curr = curr->_left;
+		}
+		else {
+			curr = curr->_right;
+		}
+	}
+	if (curr == nullptr) {
+		cout << "ERROR: Key " << key
+			<< " not found in the"
+			<< " provided BST.\n";
+		exit(1);
+	}
+	if (curr->_left == nullptr || curr->_right == nullptr) {
+		BSTreeNode* newCurr = nullptr;
+		if (curr->_left == nullptr)
+		{
+			newCurr = curr->_right;
+		}
+		else
+		{
+			newCurr = curr->_left;
+		}
 
-	if (root != nullptr)
-	{
+		if (prev == nullptr)
+		{
+			return;
+		}
+
+		if (curr == prev->_left)
+		{
+			prev->_left = newCurr;
+		}
+		else {
+			prev->_right = newCurr;
+		}
+		delete curr;
+	}
+	else {
+		BSTreeNode* p = nullptr;
 		BSTreeNode* temp = nullptr;
 
+		temp = curr->_right;
+		while (temp->_left != nullptr) {
+			p = temp;
+			temp = temp->_left;
+		}
+		if (p != nullptr)
+		{
+			p->_left = temp->_right;
+		}
+		else
+		{
+			curr->_right = temp->_right;
+		}
+		curr->_data.key = temp->_data.key;
+		delete temp;
 	}
 }
 
 void BSTree::PrintTree()
 {
-	if (root != nullptr)
+	if (_root != nullptr)
 	{
-		root->Inorder();
+		_root->Inorder();
 	}
 }

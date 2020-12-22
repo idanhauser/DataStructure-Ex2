@@ -3,42 +3,39 @@
 #include <iostream>
 using namespace std;
 
-BSTreeNode::BSTreeNode() :right(nullptr), left(nullptr)
+BSTreeNode::BSTreeNode() :_right(nullptr), _left(nullptr)
 {
 }
 
-BSTreeNode::BSTreeNode(Pair item, BSTreeNode* left, BSTreeNode* right) : value(item), left(left), right(right)
+BSTreeNode::BSTreeNode(Pair item, BSTreeNode* left, BSTreeNode* right) : _data(item), _left(left), _right(right)
 {
 }
 
 BSTreeNode::~BSTreeNode()
 {
-	if (left != nullptr)
+	if (_left != nullptr)
 	{
-		delete left;
+		delete _left;
 	}
-	if (right != nullptr)
+	if (_right != nullptr)
 	{
-		delete right;
+		delete _right;
 	}
 
 
 }
 
-Pair& BSTreeNode::getValue()
-{
-	return value;
-}
+
 
 void BSTreeNode::Inorder()
 {
-	if (left != nullptr)
+	if (_left != nullptr)
 	{
-		left->Inorder();
+		_left->Inorder();
 	}
-	cout << value.data << " : " << value.freq << endl;
-	if (right != nullptr)
+	cout << _data.key << " : " << _data.freq << endl;
+	if (_right != nullptr)
 	{
-		right->Inorder();
+		_right->Inorder();
 	}
 }

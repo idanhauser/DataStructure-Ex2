@@ -4,15 +4,15 @@
 using namespace std;
 typedef struct Pair
 {
-	char data;
+	char key;
 	int freq;
 }Pair;
 
 class BSTreeNode
 {
 private:
-	Pair value;
-	BSTreeNode* left, * right;
+	Pair _data;
+	BSTreeNode* _left, * _right;
 public:
 	BSTreeNode();
 	BSTreeNode(Pair item, BSTreeNode* left, BSTreeNode* right);
