@@ -1,7 +1,9 @@
 ﻿#pragma once
-
-struct Pair
+namespace HuffmanCoding
 {
-	char key;
-	int freq;
-};
+	struct Pair
+	{
+		char key;
+		int freq;
+	};
+}
