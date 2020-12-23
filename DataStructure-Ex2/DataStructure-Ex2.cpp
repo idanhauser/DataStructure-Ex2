@@ -24,9 +24,15 @@ void GenerateHoffmanCode(const string& cs)
 	BSTree charsCounter;
 	charsCounter.makeEmpty();
 	maxSizeOfqueue = ReadFromFile(cs, charsCounter);
+	charsCounter.PrintTree();
 	MinHeap queue(maxSizeOfqueue);
 	convertBSTtoMinHeap(charsCounter.getRoot(), queue);
-	charsCounter.PrintTree();
+
+
+	cout << endl;
+	cout << endl;
+
+	queue.printHeap();
 }
 
 int ReadFromFile(const string& cs, BSTree& searchTree)
@@ -68,8 +74,9 @@ void convertBSTtoMinHeap(TreeNode* treeNode, MinHeap& queue)
 
 
 	convertBSTtoMinHeap(treeNode->getLeft(), queue);
-	queue.insert(treeNode);
 	convertBSTtoMinHeap(treeNode->getRight(), queue);
+	queue.insert(treeNode);
+
 }
 
 int main()

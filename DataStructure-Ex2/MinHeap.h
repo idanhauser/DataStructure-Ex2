@@ -21,12 +21,13 @@ namespace HuffmanCoding
 
 	public:
 		MinHeap(int max);
-		MinHeap(TreeNode*& vec, int n);
+		MinHeap(TreeNode*& arr, int n);
 		~MinHeap();
 		bool	isEmpty();
 		void makeEmpty();
 		TreeNode* Min() const ;
 		TreeNode* DeleteMin();
 		void insert(TreeNode* item);
+		void printHeap() const;
 	};
 }

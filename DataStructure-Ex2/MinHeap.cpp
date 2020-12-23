@@ -114,14 +114,19 @@ namespace HuffmanCoding
 		int i = heapSize;
 		heapSize++;
 
-		while ((i > 0) && (data[Parent(i)]->_data.freq < item->_data.freq)) {
+		while ((i > 0) && (data[Parent(i)]->_data.freq > item->_data.freq)) {
 			data[i] = data[Parent(i)];
 			i = Parent(i);
 		}
 		data[i] = item;
 	}
 
-
-
-
+	void MinHeap::printHeap() const
+	{
+		cout << "print arr" << endl;
+		for (int i = 0; i < heapSize; ++i)
+		{
+			cout << (data[i])->getData().key << ":" << (data[i])->getData().freq << endl;
+		}
+	}
 }
