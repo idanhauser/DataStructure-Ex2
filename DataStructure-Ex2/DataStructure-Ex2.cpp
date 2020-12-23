@@ -180,6 +180,7 @@ int main()
 {
 	string nameOfFile;
 	cin >> nameOfFile;
-	//HuffmanCode a(nameOfFile);
-	GenerateHoffmanCode(nameOfFile);
+	HuffmanCode a(nameOfFile);
+	a.GenerateHuffmanCode();
+
 }

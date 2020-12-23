@@ -5,14 +5,14 @@ namespace HuffmanCoding
 
 
 
-	MinHeap::MinHeap(int max) :maxSize(max), heapSize(0), allocated(true),data(new TreeNode*[max])
+	MinHeap::MinHeap(int max) :_maxSize(max), _heapSize(0), _allocated(true),_data(new TreeNode*[max])
 	{
 
 	}
 
-	MinHeap::MinHeap(TreeNode*& arr, int n) : maxSize(n), heapSize(n), allocated(false)
+	MinHeap::MinHeap(TreeNode*& arr, int n) : _maxSize(n), _heapSize(n), _allocated(false)
 	{
-		data = &arr;
+		_data = &arr;
 		for (int i = n / 2 - 1; i >= 0; i--)
 		{
 			FixHeap(i);
@@ -21,26 +21,26 @@ namespace HuffmanCoding
 
 	MinHeap::~MinHeap()
 	{
-		if (allocated)
+		if (_allocated)
 		{
-			delete[] data;
+			delete[] _data;
 		}
-		data = nullptr;
+		_data = nullptr;
 	}
 
 	bool MinHeap::isEmpty()
 	{
-		return (heapSize == 0);
+		return (_heapSize == 0);
 	}
 
 	void MinHeap::makeEmpty()
 	{
-		heapSize = 0;
+		_heapSize = 0;
 	}
 
 	TreeNode* MinHeap::Min() const
 	{
-		return *data;
+		return *_data;
 	}
 
 	int MinHeap::Left(int node)
@@ -65,7 +65,7 @@ namespace HuffmanCoding
 		int right = Right(node);
 		/* find the smallest of parent, left, and right */
 
-		if (left < heapSize && data[left]->_data.freq < data[node]->_data.freq)
+		if (left < _heapSize && _data[left]->_data.freq < _data[node]->_data.freq)
 		{
 			min = left;
 		}
@@ -73,16 +73,16 @@ namespace HuffmanCoding
 		{
 			min = node;
 		}
-		if (right < heapSize && data[right]->_data.freq < data[min]->_data.freq)
+		if (right < _heapSize && _data[right]->_data.freq < _data[min]->_data.freq)
 		{
 			min = right;
 		}
 		/* swap the parent with the smallest, if needed. */
 
 		if (min != node) {
-			TreeNode* temp = data[node];
-			data[node] = data[min];
-			data[min] = temp;
+			TreeNode* temp = _data[node];
+			_data[node] = _data[min];
+			_data[min] = temp;
 			FixHeap(min);
 		}
 	}
@@ -91,14 +91,14 @@ namespace HuffmanCoding
 	TreeNode* MinHeap::DeleteMin()
 	{
 		TreeNode* MinTreeNode;
-		if (heapSize == 0) {
+		if (_heapSize == 0) {
 			cout << ("ERROR: heap underflow!") << endl;
 			exit(1);
 		}
 		/* get return value out of the root */
-		MinTreeNode = data[0];
-		heapSize--;
-		data[0] = data[heapSize];
+		MinTreeNode = _data[0];
+		_heapSize--;
+		_data[0] = _data[_heapSize];
 		/* left and right are a heap, make the root a heap */
 		FixHeap(0);
 		return MinTreeNode;
@@ -106,32 +106,44 @@ namespace HuffmanCoding
 
 	void MinHeap::insert(TreeNode* item)
 	{
-		if (maxSize == heapSize)
+		if (_maxSize == _heapSize)
 		{
 			cout << ("ERROR: heap Overflow!") << endl;
 			exit(1);
 		}
-		int i = heapSize;
-		heapSize++;
+		int i = _heapSize;
+		_heapSize++;
 
-		while ((i > 0) && (data[Parent(i)]->_data.freq > item->_data.freq)) {
-			data[i] = data[Parent(i)];
+		while ((i > 0) && (_data[Parent(i)]->_data.freq > item->_data.freq)) {
+			_data[i] = _data[Parent(i)];
 			i = Parent(i);
 		}
-		data[i] = item;
+		_data[i] = item;
 	}
 
 	void MinHeap::printHeap() const
 	{
 		cout << "print arr" << endl;
-		for (int i = 0; i < heapSize; ++i)
+		for (int i = 0; i < _heapSize; ++i)
 		{
-			cout << (data[i])->getData().key << ":" << (data[i])->getData().freq << endl;
+			cout << (_data[i])->getData().key << ":" << (_data[i])->getData().freq << endl;
 		}
 	}
 
 	int MinHeap::getHeapSize() const
 	{
-		return heapSize;
+		return _heapSize;
+	}
+
+	void MinHeap::operator=(const MinHeap& other)
+	{
+		if(this!=&other)
+		{
+			_allocated = other._allocated;
+			_heapSize = other._heapSize;
+			_maxSize = other._maxSize;
+			_data = new TreeNode * [_maxSize];
+			
+		}
 	}
 }

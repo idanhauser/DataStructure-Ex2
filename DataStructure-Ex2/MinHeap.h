@@ -10,10 +10,10 @@ namespace HuffmanCoding
 	class MinHeap
 	{
 	private:
-		TreeNode** data;
-		int maxSize;
-		int heapSize;
-		bool allocated;
+		TreeNode** _data;
+		int _maxSize;
+		int _heapSize;
+		bool _allocated;
 		static int Left(int node);
 		static int Right(int node);
 		static int Parent(int node);
@@ -31,5 +31,6 @@ namespace HuffmanCoding
 		void insert(TreeNode* item);
 		void printHeap() const;
 		int getHeapSize() const;
+		void operator=(const MinHeap& other);
 	};
 }
