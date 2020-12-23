@@ -4,10 +4,15 @@
 #include <fstream>
 #include <iostream>
 #include "BSTree.h"
+#include "HuffmanCode.h"
 #include "MinHeap.h"
 using namespace std;
 using namespace HuffmanCoding;
 
+void traverse(TreeNode* r, 	/* root of this (sub)tree */
+	int level, 	/* current level in Huffman tree */
+	char code_so_far[], /* code string up to this point in tree */
+	char* codes[]); /* array of codes */
 void GenerateHoffmanCode(const string& cs);
 
 
@@ -17,22 +22,30 @@ int ReadFromFile(const string& cs, BSTree& searchTree);
 void convertBSTtoMinHeap(TreeNode* treeNode, MinHeap& queue);
 
 
+TreeNode* build_huffman( MinHeap& queue);
 
 void GenerateHoffmanCode(const string& cs)
 {
+	char* codes[256]; /* array of codes, 1 per char */
+	char code[256];   /* a place to hold one code */
 	int maxSizeOfqueue;
 	BSTree charsCounter;
-	charsCounter.makeEmpty();
+
 	maxSizeOfqueue = ReadFromFile(cs, charsCounter);
 	charsCounter.PrintTree();
 	MinHeap queue(maxSizeOfqueue);
 	convertBSTtoMinHeap(charsCounter.getRoot(), queue);
-
+	TreeNode* t;
 
 	cout << endl;
 	cout << endl;
 
 	queue.printHeap();
+
+	t=build_huffman(queue);
+
+
+	traverse(t, 0, code, codes);
 }
 
 int ReadFromFile(const string& cs, BSTree& searchTree)
@@ -64,6 +77,53 @@ int ReadFromFile(const string& cs, BSTree& searchTree)
 	return counter;
 }
 
+
+
+/* make the huffman tree from frequencies in freq[] (Huffman's Algorithm) */
+
+TreeNode* build_huffman(MinHeap& queue) {
+	int		i, n;
+	TreeNode* x, * y, * z;
+	Pair item;
+	item.key = '%';
+
+	/* at this point, the heap is a "forest" of singleton trees */
+
+	n = queue.getHeapSize() - 1; /* heap_size isn't loop invariant! */
+
+	/* if we insert two things and remove one each time,
+	 * at the end of heap_size-1 iterations, there will be
+	 * one tree left in the heap
+	 */
+	for (i = 0; i < n; i++) {
+
+		/* make a new node z from the two least frequent
+		 * nodes x and y
+		 */
+	
+		x = queue.DeleteMin();
+		y = queue.DeleteMin();
+		item.freq= x->getData().freq + y->getData().freq;
+		z = new TreeNode(item, x, y);
+		/* z's frequency is the sum of x and y */
+
+
+		/* put this back in the queue */
+
+		queue.insert(z);
+	}
+
+	/* return the only thing left in the queue, the whole Huffman tree */
+
+	return queue.DeleteMin();
+}
+
+
+
+
+
+
+
 void convertBSTtoMinHeap(TreeNode* treeNode, MinHeap& queue)
 {
 	if (treeNode == nullptr)
@@ -75,14 +135,51 @@ void convertBSTtoMinHeap(TreeNode* treeNode, MinHeap& queue)
 
 	convertBSTtoMinHeap(treeNode->getLeft(), queue);
 	convertBSTtoMinHeap(treeNode->getRight(), queue);
+	treeNode->setLeft(nullptr);
+	treeNode->setright(nullptr);
 	queue.insert(treeNode);
 
 }
+
+
+void traverse(TreeNode* r, 	/* root of this (sub)tree */
+	int level, 	/* current level in Huffman tree */
+	char code_so_far[], /* code string up to this point in tree */
+	char* codes[]) {/* array of codes */
+
+/* if we're at a leaf node, */
+
+	if ((r->getLeft() == nullptr) && (r->getRight() == nullptr)) {
+
+		/* put in a null terminator */
+
+		code_so_far[level] = 0;
+
+		/* make a copy of the code and put it in the array */
+
+		codes[r->getData().key] = (code_so_far);
+	}
+	else {
+
+		/* not at a leaf node.  go left with bit 0 */
+
+		code_so_far[level] = '0';
+		traverse(r->getLeft(), level + 1, code_so_far, codes);
+
+		/* go right with bit 1 */
+
+		code_so_far[level] = '1';
+		traverse(r->getRight(), level + 1, code_so_far, codes);
+	}
+}
+
+
+
 
 int main()
 {
 	string nameOfFile;
 	cin >> nameOfFile;
-
+	//HuffmanCode a(nameOfFile);
 	GenerateHoffmanCode(nameOfFile);
 }

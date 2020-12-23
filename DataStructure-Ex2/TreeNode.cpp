@@ -51,4 +51,14 @@ namespace HuffmanCoding
 			_right->Inorder();
 		}
 	}
+
+	void TreeNode::setLeft(TreeNode* left)
+	{
+		_left = left;
+	}
+
+	void TreeNode::setright(TreeNode* right)
+	{
+		_right = right;
+	}
 }

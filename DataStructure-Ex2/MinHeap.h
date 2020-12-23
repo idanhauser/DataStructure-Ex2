@@ -20,6 +20,7 @@ namespace HuffmanCoding
 		void FixHeap(int node);
 
 	public:
+		MinHeap()=default;
 		MinHeap(int max);
 		MinHeap(TreeNode*& arr, int n);
 		~MinHeap();
@@ -29,5 +30,6 @@ namespace HuffmanCoding
 		TreeNode* DeleteMin();
 		void insert(TreeNode* item);
 		void printHeap() const;
+		int getHeapSize() const;
 	};
 }

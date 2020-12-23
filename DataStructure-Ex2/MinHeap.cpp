@@ -129,4 +129,9 @@ namespace HuffmanCoding
 			cout << (data[i])->getData().key << ":" << (data[i])->getData().freq << endl;
 		}
 	}
+
+	int MinHeap::getHeapSize() const
+	{
+		return heapSize;
+	}
 }

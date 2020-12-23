@@ -22,5 +22,7 @@ namespace HuffmanCoding
 		void Inorder() const ;
 		friend class BSTree;
 		friend class MinHeap;
+		void setLeft(TreeNode* left);
+		void setright(TreeNode* right);
 	};
 }
