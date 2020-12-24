@@ -9,10 +9,7 @@
 using namespace std;
 using namespace HuffmanCoding;
 
-void traverse(TreeNode* r, 	/* root of this (sub)tree */
-	int level, 	/* current level in Huffman tree */
-	char code_so_far[], /* code string up to this point in tree */
-	char* codes[]); /* array of codes */
+
 void GenerateHoffmanCode(const string& cs);
 
 
@@ -45,7 +42,7 @@ void GenerateHoffmanCode(const string& cs)
 	t=build_huffman(queue);
 
 
-	traverse(t, 0, code, codes);
+	//traverse(t, 0, code, codes);
 }
 
 int ReadFromFile(const string& cs, BSTree& searchTree)
@@ -65,12 +62,12 @@ int ReadFromFile(const string& cs, BSTree& searchTree)
 			exit(-1);
 		}
 		cout << val << endl;//for testing purpose need to delete
-		infile >> val;
 		Pair data;
 		data.freq = 0;
 		data.key = val;
 		searchTree.Insert(data);
 		counter++;
+		infile >> val;
 	}
 	infile.close();
 	cout << endl;
@@ -139,38 +136,6 @@ void convertBSTtoMinHeap(TreeNode* treeNode, MinHeap& queue)
 	treeNode->setright(nullptr);
 	queue.insert(treeNode);
 
-}
-
-
-void traverse(TreeNode* r, 	/* root of this (sub)tree */
-	int level, 	/* current level in Huffman tree */
-	char code_so_far[], /* code string up to this point in tree */
-	char* codes[]) {/* array of codes */
-
-/* if we're at a leaf node, */
-
-	if ((r->getLeft() == nullptr) && (r->getRight() == nullptr)) {
-
-		/* put in a null terminator */
-
-		code_so_far[level] = 0;
-
-		/* make a copy of the code and put it in the array */
-
-		codes[r->getData().key] = (code_so_far);
-	}
-	else {
-
-		/* not at a leaf node.  go left with bit 0 */
-
-		code_so_far[level] = '0';
-		traverse(r->getLeft(), level + 1, code_so_far, codes);
-
-		/* go right with bit 1 */
-
-		code_so_far[level] = '1';
-		traverse(r->getRight(), level + 1, code_so_far, codes);
-	}
 }
 
 

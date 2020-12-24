@@ -28,20 +28,22 @@ namespace HuffmanCoding
 			return;
 		}
 
-		_infile>>std::noskipws >> val;
+		_infile >> std::noskipws >> val;
 		while (!_infile.eof()) {
 			if (!_infile.good()) {
 				_Output = "Error reading. \n";
 				_isValid = false;
 				return;
 			}
-			cout << val << endl;//TODO: for testing purpose need to delete
-			_infile >> val;
+
 			Pair data;
 			data.freq = 0;
 			data.key = val;
+			cout << "key " << data.key << " : " << data.freq << endl;
 			_charsCounter.Insert(data);
 			counter++;
+
+			_infile >> std::noskipws >> val;
 		}
 		_infile.close();
 		cout << endl;
@@ -90,7 +92,7 @@ namespace HuffmanCoding
 	void HuffmanCode::printCodes(TreeNode* huffNode, int arr[], int top)
 
 	{
-	
+
 		// Assign 0 to left edge and recur 
 		if (huffNode->getLeft()) {
 
@@ -113,11 +115,11 @@ namespace HuffmanCoding
 
 			cout << huffNode->getData().key << ": ";
 
-
-			for (int i = 0; i < top - 1; ++i)
+			_sum += top * huffNode->getData().freq;
+			for (int i = 0; i < top; ++i)
 			{
 				cout << arr[i];
-				_sum += huffNode->getData().freq * lennn(arr[i]);
+
 			}
 			cout << "\n";
 
@@ -125,18 +127,9 @@ namespace HuffmanCoding
 
 	}
 
-	int HuffmanCode::lennn(int num)
-	{
-		unsigned int number_of_digits = 0;
-
-		do {
-			++number_of_digits;
-			num /= 10;
-		} while (num);
-		return number_of_digits;
-	}
 	void HuffmanCode::GenerateHuffmanCode()
 	{
+		_charsCounter.PrintTree();
 		convertBSTtoMinHeap(_charsCounter.getRoot());
 		buildHuffman();
 		int size = _queue.getHeapSize();

@@ -23,7 +23,7 @@ namespace HuffmanCoding
 	{
 		if (_allocated)
 		{
-			delete[] _data;
+	   	delete[] _data;
 		}
 		_data = nullptr;
 	}
@@ -139,11 +139,15 @@ namespace HuffmanCoding
 	{
 		if(this!=&other)
 		{
+			Pair x = { 0,0 };
 			_allocated = other._allocated;
 			_heapSize = other._heapSize;
 			_maxSize = other._maxSize;
-			_data = new TreeNode * [_maxSize];
-			
+		_data = new TreeNode * [_maxSize];
+			for (int i = 0; i < _maxSize; ++i)
+			{
+				_data[i] = new TreeNode(x,nullptr,nullptr);
+			}
 		}
 	}
 }

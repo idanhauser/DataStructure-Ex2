@@ -88,29 +88,24 @@ namespace  HuffmanCoding
 				parent = temp;
 				if (item.key < (temp->_data).key)
 				{
-					cout << "item.key = " << item.key << " is smaller than (temp->_data).key = " << (temp->_data).key << endl;
 					temp = temp->_left;
 				}
 				else
 				{
-					cout << "item.key = " << item.key << " is bigger than (temp->_data).key" << (temp->_data).key << endl;
 					temp = temp->_right;
 				}
 			}
 			newNode = new TreeNode(item, nullptr, nullptr);
 			if (parent == nullptr)
 			{
-				cout << "parent is null" << endl;
 				_root = newNode;
 			}
 			else if (item.key < (parent->_data).key)
 			{
-				cout << "item.key = " << item.key << " is smaller than (parent->_data).key = " << (parent->_data).key << endl;
 				parent->_left = newNode;
 			}
 			else
 			{
-				cout << "item.key = " << item.key << " is bigger than (parent->_data).key = " << (parent->_data).key << endl;
 				parent->_right = newNode;
 			}
 		}

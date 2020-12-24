@@ -29,6 +29,6 @@ namespace HuffmanCoding
 		void GenerateHuffmanCode();
 		void convertBSTtoMinHeap(TreeNode* treeNode);
 		void printCodes(TreeNode* huffNode, int arr[], int top);
-		int lennn(int num);        
+        
 	};
 }    
