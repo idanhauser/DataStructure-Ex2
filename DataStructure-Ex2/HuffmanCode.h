@@ -5,7 +5,7 @@
 
 #include "BSTree.h"
 #include "MinHeap.h"
-
+using namespace std;
 namespace HuffmanCoding
 {
 
@@ -28,7 +28,7 @@ namespace HuffmanCoding
 		void buildHuffman();
 		void GenerateHuffmanCode();
 		void convertBSTtoMinHeap(TreeNode* treeNode);
-		void printCodes(TreeNode* huffNode, int arr[], int top);
+		void printCodes(TreeNode* huffNode, int* arr, int top);
         
 	};
 }    

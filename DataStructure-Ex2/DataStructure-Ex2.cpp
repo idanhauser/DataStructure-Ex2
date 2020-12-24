@@ -17,5 +17,5 @@ int main()
 	cin >> nameOfFile;
 	HuffmanCode a(nameOfFile);
 	a.GenerateHuffmanCode();
-	std::cout << "bye" << std::endl;
+
 }

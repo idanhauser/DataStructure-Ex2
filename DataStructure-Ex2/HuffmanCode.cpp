@@ -1,4 +1,6 @@
 ﻿#include "HuffmanCode.h"
+
+#include <string>
 using namespace std;
 #include <iostream>
 namespace HuffmanCoding
@@ -40,7 +42,7 @@ namespace HuffmanCoding
 			Pair data;
 			data.freq = 0;
 			data.key = val;
-			cout << "key " << data.key << " : " << data.freq << endl;
+		//	cout << "key " << data.key << " : " << data.freq << endl;
 			_charsCounter.Insert(data);
 			counter++;
 
@@ -76,11 +78,8 @@ namespace HuffmanCoding
 		_huffTree = _queue.DeleteMin();
 	}
 
-	void HuffmanCode::printCodes(TreeNode* huffNode, int arr[], int top)
-
+	void HuffmanCode::printCodes(TreeNode* huffNode, int* arr, int top)
 	{
-
-
 		if (huffNode->getLeft()) {
 
 			arr[top] = 0;
@@ -95,15 +94,26 @@ namespace HuffmanCoding
 
 
 		if (huffNode->getRight() == nullptr && huffNode->getLeft() == nullptr) {
-
-			cout << huffNode->getData().key << ": ";
-
+			if (huffNode->getData().key != '\n')
+			{
+				cout << "'" << huffNode->getData().key << "' - ";
+			}
+			else
+			{
+				cout << "'" << "\\n" << "' - ";
+			}
 			_sum += top * huffNode->getData().freq;
 			for (int i = 0; i < top; ++i)
 			{
-				std::cout << arr[i];
+				cout << arr[i];
 
 			}
+			if(top==0)
+			{
+				cout << arr[top];
+				_sum += huffNode->getData().freq;
+			}
+
 			cout << "\n";
 
 		}
@@ -112,13 +122,15 @@ namespace HuffmanCoding
 
 	void HuffmanCode::GenerateHuffmanCode()
 	{
-
 		convertBSTtoMinHeap(_charsCounter.getRoot());
 		buildHuffman();
-		int size = _queue.getHeapSize();
+		int size = _queue.getMaxHeapSize();
 		int* arr = new int[size];
+		arr[0] = 1;
+		cout << "Character encoding:" << endl;
 		printCodes(_huffTree, arr, 0);
-		cout << "Encoded file weight: " << _sum;
+		cout << "Encoded file weight: " << _sum << " bits.";
+		delete[] arr;
 	}
 
 	void HuffmanCode::convertBSTtoMinHeap(TreeNode* treeNode)

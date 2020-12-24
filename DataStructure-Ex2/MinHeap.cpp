@@ -135,6 +135,11 @@ namespace HuffmanCoding
 		return _heapSize;
 	}
 
+	int MinHeap::getMaxHeapSize() const
+	{
+		return _maxSize;
+	}
+
 	void MinHeap::operator=(const MinHeap& other)
 	{
 		if (this != &other)

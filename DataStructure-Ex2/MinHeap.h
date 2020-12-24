@@ -31,6 +31,7 @@ namespace HuffmanCoding
 		void insert(TreeNode* item);
 		void printHeap() const;
 		int getHeapSize() const;
+		int getMaxHeapSize() const;
 		void operator=(const MinHeap& other);
 	};
 }
