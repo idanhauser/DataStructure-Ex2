@@ -5,7 +5,7 @@ namespace HuffmanCoding
 
 
 
-	MinHeap::MinHeap(int max) :_maxSize(max), _heapSize(0), _allocated(true),_data(new TreeNode*[max])
+	MinHeap::MinHeap(int max) :_maxSize(max), _heapSize(0), _allocated(true), _data(new TreeNode* [max])
 	{
 
 	}
@@ -23,7 +23,7 @@ namespace HuffmanCoding
 	{
 		if (_allocated)
 		{
-	   	delete[] _data;
+			delete[] _data;
 		}
 		_data = nullptr;
 	}
@@ -137,17 +137,14 @@ namespace HuffmanCoding
 
 	void MinHeap::operator=(const MinHeap& other)
 	{
-		if(this!=&other)
+		if (this != &other)
 		{
 			Pair x = { 0,0 };
 			_allocated = other._allocated;
 			_heapSize = other._heapSize;
 			_maxSize = other._maxSize;
-		_data = new TreeNode * [_maxSize];
-			for (int i = 0; i < _maxSize; ++i)
-			{
-				_data[i] = new TreeNode(x,nullptr,nullptr);
-			}
+			_data = new TreeNode * [_maxSize];
+
 		}
 	}
 }

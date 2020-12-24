@@ -1,5 +1,6 @@
 ﻿#include "HuffmanCode.h"
-
+using namespace std;
+#include <iostream>
 namespace HuffmanCoding
 {
 	void HuffmanCode::checkInput()
@@ -39,7 +40,6 @@ namespace HuffmanCoding
 			Pair data;
 			data.freq = 0;
 			data.key = val;
-			cout << "key " << data.key << " : " << data.freq << endl;
 			_charsCounter.Insert(data);
 			counter++;
 
@@ -55,62 +55,44 @@ namespace HuffmanCoding
 		int		i, n;
 		TreeNode* minNode1, * minNode2, * newNode;
 		Pair item;
-		item.key = '%';
+		item.key = 7;//	NON PRINTABLE CHARACTER
+		n = _queue.getHeapSize() - 1; 
 
-		/* at this point, the heap is a "forest" of singleton trees */
 
-		n = _queue.getHeapSize() - 1; /* heap_size isn't loop invariant! */
-
-		/* if we insert two things and remove one each time,
-		 * at the end of heap_size-1 iterations, there will be
-		 * one tree left in the heap
-		 */
 		for (i = 0; i < n; i++) {
 
-			/* make a new node z from the two least frequent
-			 * nodes x and y
-			 */
 
 			minNode1 = _queue.DeleteMin();
 			minNode2 = _queue.DeleteMin();
 			item.freq = minNode1->getData().freq + minNode2->getData().freq;
 			newNode = new TreeNode(item, minNode1, minNode2);
-			/* z's frequency is the sum of x and y */
 
-
-			/* put this back in the queue */
 
 			_queue.insert(newNode);
 		}
 
-		/* return the only thing left in the queue, the whole Huffman tree */
 
 		_huffTree = _queue.DeleteMin();
 	}
-	// Prints huffman codes from the root of Huffman Tree. 
-// It uses arr[] to store codes 
+
 	void HuffmanCode::printCodes(TreeNode* huffNode, int arr[], int top)
 
 	{
 
-		// Assign 0 to left edge and recur 
+
 		if (huffNode->getLeft()) {
 
 			arr[top] = 0;
 			printCodes(huffNode->getLeft(), arr, top + 1);
 		}
 
-		// Assign 1 to right edge and recur 
 		if (huffNode->getRight()) {
 
 			arr[top] = 1;
 			printCodes(huffNode->getRight(), arr, top + 1);
 		}
 
-		// If this is a leaf node, then 
-		// it contains one of the input 
-		// characters, print the character 
-		// and its code from arr[] 
+
 		if (huffNode->getRight() == nullptr && huffNode->getLeft() == nullptr) {
 
 			cout << huffNode->getData().key << ": ";
@@ -118,7 +100,7 @@ namespace HuffmanCoding
 			_sum += top * huffNode->getData().freq;
 			for (int i = 0; i < top; ++i)
 			{
-				cout << arr[i];
+				std::cout << arr[i];
 
 			}
 			cout << "\n";
@@ -129,7 +111,7 @@ namespace HuffmanCoding
 
 	void HuffmanCode::GenerateHuffmanCode()
 	{
-		_charsCounter.PrintTree();
+
 		convertBSTtoMinHeap(_charsCounter.getRoot());
 		buildHuffman();
 		int size = _queue.getHeapSize();

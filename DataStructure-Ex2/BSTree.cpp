@@ -17,6 +17,7 @@ namespace  HuffmanCoding
 	{
 		if (_root != nullptr)
 		{
+
 			delete _root;
 		}
 		_root = nullptr;
@@ -43,12 +44,12 @@ namespace  HuffmanCoding
 
 		return nullptr;
 	}
-
+	/* loop down to find the leftmost leaf */
 	Pair BSTree::FindMin(const char key) const
 	{
 		TreeNode* current = _root;
 
-		/* loop down to find the leftmost leaf */
+
 		while (current->_left != nullptr)
 		{
 			current = current->_left;
@@ -56,11 +57,11 @@ namespace  HuffmanCoding
 
 		return current->_data;
 	}
-
+	/* loop down to find the rightmost leaf */
 	Pair BSTree::FindMax(const char key) const
 	{
 		TreeNode* current = _root;
-		/* loop down to find the rightmost leaf */
+
 
 		while (current->_right != nullptr)
 			current = current->_right;
@@ -86,6 +87,7 @@ namespace  HuffmanCoding
 			while (temp != nullptr)
 			{
 				parent = temp;
+
 				if (item.key < (temp->_data).key)
 				{
 					temp = temp->_left;
@@ -125,7 +127,7 @@ namespace  HuffmanCoding
 				curr = curr->_right;
 			}
 		}
-		if (curr == nullptr) {
+		if (curr == nullptr) {//TODO:change to output
 			cout << "ERROR: Key " << key
 				<< " not found in the"
 				<< " provided BST.\n";
@@ -186,7 +188,7 @@ namespace  HuffmanCoding
 		}
 	}
 
-	 TreeNode* BSTree::getRoot() const
+	TreeNode* BSTree::getRoot() const
 	{
 		return _root;
 	}
