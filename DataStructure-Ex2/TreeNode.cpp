@@ -45,7 +45,7 @@ namespace HuffmanCoding
 		{
 			_left->Inorder();
 		}
-		cout << _data.key << " : " << _data.freq << endl;
+	//	cout << _data.key << " : " << _data.freq << endl;
 		if (_right != nullptr)
 		{
 			_right->Inorder();

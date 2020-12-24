@@ -40,6 +40,7 @@ namespace HuffmanCoding
 			Pair data;
 			data.freq = 0;
 			data.key = val;
+			cout << "key " << data.key << " : " << data.freq << endl;
 			_charsCounter.Insert(data);
 			counter++;
 

@@ -143,8 +143,12 @@ namespace HuffmanCoding
 			_allocated = other._allocated;
 			_heapSize = other._heapSize;
 			_maxSize = other._maxSize;
-			_data = new TreeNode * [_maxSize];
-
+		_data = new TreeNode * [_maxSize];
+		/*	for (int i = 0; i < _maxSize; ++i)
+			{
+				_data[i] = new TreeNode(x,nullptr,nullptr);
+			}*/
+			
 		}
 	}
 }
