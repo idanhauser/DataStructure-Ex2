@@ -14,6 +14,7 @@ using namespace HuffmanCoding;
 int main()
 {
 	string nameOfFile;
+	cout << "Enter name of file." << endl;
 	cin >> nameOfFile;
 	HuffmanCode a(nameOfFile);
 	a.GenerateHuffmanCode();

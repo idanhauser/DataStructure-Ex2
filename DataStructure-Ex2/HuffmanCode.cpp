@@ -58,7 +58,7 @@ namespace HuffmanCoding
 		int		i, n;
 		TreeNode* minNode1, * minNode2, * newNode;
 		Pair item;
-		item.key = 7;//	NON PRINTABLE CHARACTER
+		item.key = 7;//26	NON PRINTABLE CHARACTER
 		n = _queue.getHeapSize() - 1; 
 
 
