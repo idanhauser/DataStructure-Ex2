@@ -1,24 +1,30 @@
 ﻿#include "MinHeap.h"
 
+#include <stdlib.h>
+#define new MYDEBUG_NEW
+#ifdef _DEBUG
+#define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#else
+#define MYDEBUG_NEW new
+#endif
+
 namespace HuffmanCoding
 {
 
 
-
-	MinHeap::MinHeap(int max) :_maxSize(max), _heapSize(0), _allocated(true), _data(new TreeNode* [max])
+	MinHeap::MinHeap( int max) :_data(new TreeNode* [max]), _phySize(max), _heapSize(0), _allocated(true)
 	{
 
 	}
 
-	MinHeap::MinHeap(TreeNode*& arr, int n) : _maxSize(n), _heapSize(n), _allocated(false)
+	MinHeap::MinHeap(TreeNode*& arr,const int size) : _phySize(size), _heapSize(size), _allocated(false)
 	{
 		_data = &arr;
-		for (int i = n / 2 - 1; i >= 0; i--)
+		for (int i = size / 2 - 1; i >= 0; i--)
 		{
 			FixHeap(i);
 		}
 	}
-
 	MinHeap::~MinHeap()
 	{
 		if (_allocated)
@@ -28,7 +34,7 @@ namespace HuffmanCoding
 		_data = nullptr;
 	}
 
-	bool MinHeap::isEmpty()
+	bool MinHeap::isEmpty() const
 	{
 		return (_heapSize == 0);
 	}
@@ -43,29 +49,29 @@ namespace HuffmanCoding
 		return *_data;
 	}
 
-	int MinHeap::Left(int node)
+	int MinHeap::Left(const int node)  
 	{
 		return (2 * node + 1);
 	}
 
-	int MinHeap::Right(int node)
+	int MinHeap::Right(const int node)
 	{
 		return (2 * node + 2);
 	}
 
-	int MinHeap::Parent(int node)
+	int MinHeap::Parent(const int node)
 	{
 		return (node - 1) / 2;
 	}
 
-	void MinHeap::FixHeap(int node)
+	void MinHeap::FixHeap(const int node)
 	{
 		int min;
 		int left = Left(node);
 		int right = Right(node);
 		/* find the smallest of parent, left, and right */
 
-		if (left < _heapSize && _data[left]->_data.freq < _data[node]->_data.freq)
+		if (left < _heapSize && _data[left]->_data.getFreq() < _data[node]->_data.getFreq())
 		{
 			min = left;
 		}
@@ -73,11 +79,11 @@ namespace HuffmanCoding
 		{
 			min = node;
 		}
-		if (right < _heapSize && _data[right]->_data.freq < _data[min]->_data.freq)
+		if (right < _heapSize && _data[right]->_data.getFreq() < _data[min]->_data.getFreq())
 		{
 			min = right;
 		}
-		/* swap the parent with the smallest, if needed. */
+
 
 		if (min != node) {
 			TreeNode* temp = _data[node];
@@ -87,26 +93,28 @@ namespace HuffmanCoding
 		}
 	}
 
-	/* remove the element at head of the queue (i.e., with minimum frequency) */
-	TreeNode* MinHeap::DeleteMin()
+
+	/// <summary>
+	///Remove the element at head of the queue 
+	/// </summary>
+	/// <returns>retuns the element with the minimum frequency.(the root in the MinHeap) </returns>
+	TreeNode& MinHeap::DeleteMin()
 	{
 		TreeNode* MinTreeNode;
 		if (_heapSize == 0) {
 			cout << ("ERROR: heap underflow!") << endl;
 			exit(1);
 		}
-		/* get return value out of the root */
 		MinTreeNode = _data[0];
 		_heapSize--;
 		_data[0] = _data[_heapSize];
-		/* left and right are a heap, make the root a heap */
 		FixHeap(0);
-		return MinTreeNode;
+		return *MinTreeNode;
 	}
 
-	void MinHeap::insert(TreeNode* item)
+	void MinHeap::insert(TreeNode& item)
 	{
-		if (_maxSize == _heapSize)
+		if (_phySize == _heapSize)
 		{
 			cout << ("ERROR: heap Overflow!") << endl;
 			exit(1);
@@ -114,11 +122,11 @@ namespace HuffmanCoding
 		int i = _heapSize;
 		_heapSize++;
 
-		while ((i > 0) && (_data[Parent(i)]->_data.freq > item->_data.freq)) {
+		while ((i > 0) && (_data[Parent(i)]->_data.getFreq() > item._data.getFreq())) {
 			_data[i] = _data[Parent(i)];
 			i = Parent(i);
 		}
-		_data[i] = item;
+		_data[i] = &item;
 	}
 
 	void MinHeap::printHeap() const
@@ -126,7 +134,7 @@ namespace HuffmanCoding
 		cout << "print arr" << endl;
 		for (int i = 0; i < _heapSize; ++i)
 		{
-			cout << (_data[i])->getData().key << ":" << (_data[i])->getData().freq << endl;
+			cout << (_data[i])->getData().getKey() << ":" << (_data[i])->getData().getFreq() << endl;
 		}
 	}
 
@@ -135,25 +143,20 @@ namespace HuffmanCoding
 		return _heapSize;
 	}
 
-	int MinHeap::getMaxHeapSize() const
+	int MinHeap::getPhyHeapSize() const
 	{
-		return _maxSize;
+		return _phySize;
 	}
 
-	void MinHeap::operator=(const MinHeap& other)
+	 MinHeap& MinHeap::operator=(const MinHeap& other)
 	{
 		if (this != &other)
 		{
-			Pair x = { 0,0 };
 			_allocated = other._allocated;
 			_heapSize = other._heapSize;
-			_maxSize = other._maxSize;
-		_data = new TreeNode * [_maxSize];
-		/*	for (int i = 0; i < _maxSize; ++i)
-			{
-				_data[i] = new TreeNode(x,nullptr,nullptr);
-			}*/
-			
+			_phySize = other._phySize;
+			_data = new TreeNode * [_phySize];
 		}
+		return *this;
 	}
 }

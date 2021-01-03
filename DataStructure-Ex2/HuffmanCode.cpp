@@ -1,11 +1,19 @@
 ﻿#include "HuffmanCode.h"
-
+#include <stdlib.h>
 #include <string>
+
+#include "Utils.h"
+#define new MYDEBUG_NEW
+#ifdef _DEBUG
+#define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#else
+#define MYDEBUG_NEW new
+#endif
 using namespace std;
 #include <iostream>
 namespace HuffmanCoding
 {
-	void HuffmanCode::checkInput()
+	void HuffmanCode::checkInput() const
 	{
 		if (!_isValid)
 		{
@@ -14,11 +22,21 @@ namespace HuffmanCoding
 		}
 	}
 
-	HuffmanCode::HuffmanCode(const string& namefile) :_maxSizeOfqueue(0), _infile(namefile), _isValid(true)
+	HuffmanCode::HuffmanCode(const string& nameFile) : _sum(0), _maxSizeOfqueue(0), _charsCounter(),_queue(),
+	                                                   _infile(nameFile), _Output(""), _isValid(true), _huffTree()
 	{
 		ReadFromFile();//updating the member __maxSizeOfqueue
 		checkInput();
+	
 		_queue = MinHeap(_maxSizeOfqueue);//init queue
+		
+	}
+
+	HuffmanCode::~HuffmanCode()
+	{
+		delete _huffTree;
+		_huffTree = nullptr;
+
 	}
 
 	void HuffmanCode::ReadFromFile()
@@ -39,10 +57,7 @@ namespace HuffmanCoding
 				return;
 			}
 
-			Pair data;
-			data.freq = 0;
-			data.key = val;
-		//	cout << "key " << data.key << " : " << data.freq << endl;
+			Pair data(val,0);
 			_charsCounter.Insert(data);
 			counter++;
 
@@ -50,59 +65,57 @@ namespace HuffmanCoding
 		}
 		_infile.close();
 		cout << endl;
-		_maxSizeOfqueue = counter;
+		_maxSizeOfqueue = _charsCounter.getSize();
 	}
 
 	void HuffmanCode::buildHuffman()
 	{
-		int		i, n;
-		TreeNode* minNode1, * minNode2, * newNode;
-		Pair item;
-		item.key = 7;//26	NON PRINTABLE CHARACTER
-		n = _queue.getHeapSize() - 1; 
+		TreeNode* minNode1;
+		TreeNode* minNode2;
+		TreeNode* newNode;
+		Pair item(NON_PRINTABLE_CHARACTER,0);
+		const int size = _queue.getHeapSize() - 1; 
 
 
-		for (i = 0; i < n; i++) {
+		for (int i = 0; i < size; i++) {
 
 
-			minNode1 = _queue.DeleteMin();
-			minNode2 = _queue.DeleteMin();
-			item.freq = minNode1->getData().freq + minNode2->getData().freq;
+			minNode1 = &_queue.DeleteMin();
+			minNode2 = &_queue.DeleteMin();
+			item.setFreq(minNode1->getData().getFreq() + minNode2->getData().getFreq());
 			newNode = new TreeNode(item, minNode1, minNode2);
 
 
-			_queue.insert(newNode);
+			_queue.insert(*newNode);
 		}
-
-
-		_huffTree = _queue.DeleteMin();
+		_huffTree = &(_queue.DeleteMin());
 	}
 
-	void HuffmanCode::printCodes(TreeNode* huffNode, int* arr, int top)
+	void HuffmanCode::printCodes(TreeNode& huffNode, int* arr,const int top)
 	{
-		if (huffNode->getLeft()) {
+		if (huffNode.getLeft()) {
 
 			arr[top] = 0;
-			printCodes(huffNode->getLeft(), arr, top + 1);
+			printCodes(*huffNode.getLeft(), arr, top + 1);
 		}
 
-		if (huffNode->getRight()) {
+		if (huffNode.getRight()) {
 
 			arr[top] = 1;
-			printCodes(huffNode->getRight(), arr, top + 1);
+			printCodes(*huffNode.getRight(), arr, top + 1);
 		}
 
 
-		if (huffNode->getRight() == nullptr && huffNode->getLeft() == nullptr) {
-			if (huffNode->getData().key != '\n')
+		if (huffNode.getRight() == nullptr && huffNode.getLeft() == nullptr) {
+			if (huffNode.getData().getKey() != '\n')
 			{
-				cout << "'" << huffNode->getData().key << "' - ";
+				cout << "'" << huffNode.getData().getKey() << "' - ";
 			}
 			else
 			{
 				cout << "'" << "\\n" << "' - ";
 			}
-			_sum += top * huffNode->getData().freq;
+			_sum += top * huffNode.getData().getFreq();
 			for (int i = 0; i < top; ++i)
 			{
 				cout << arr[i];
@@ -111,10 +124,10 @@ namespace HuffmanCoding
 			if(top==0)
 			{
 				cout << arr[top];
-				_sum += huffNode->getData().freq;
+				_sum += huffNode.getData().getFreq();
 			}
 
-			cout << "\n";
+			cout << endl;
 
 		}
 
@@ -124,11 +137,11 @@ namespace HuffmanCoding
 	{
 		convertBSTtoMinHeap(_charsCounter.getRoot());
 		buildHuffman();
-		int size = _queue.getMaxHeapSize();
+		int size = _queue.getPhyHeapSize();
 		int* arr = new int[size];
 		arr[0] = 1;
 		cout << "Character encoding:" << endl;
-		printCodes(_huffTree, arr, 0);
+		printCodes(*_huffTree, arr, 0);
 		cout << "Encoded file weight: " << _sum << " bits.";
 		delete[] arr;
 	}
@@ -143,6 +156,7 @@ namespace HuffmanCoding
 		convertBSTtoMinHeap(treeNode->getRight());
 		treeNode->setLeft(nullptr);
 		treeNode->setright(nullptr);
-		_queue.insert(treeNode);
+		_queue.insert(*treeNode);
+	
 	}
 }

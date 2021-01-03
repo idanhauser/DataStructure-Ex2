@@ -9,14 +9,23 @@
 using namespace std;
 using namespace HuffmanCoding;
 
-
+#include <crtdbg.h>
+#define new MYDEBUG_NEW
+#ifdef _DEBUG
+#define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#else
+#define MYDEBUG_NEW new
+#endif
 
 int main()
 {
-	string nameOfFile;
-	cout << "Enter name of file." << endl;
-	cin >> nameOfFile;
-	HuffmanCode a(nameOfFile);
-	a.GenerateHuffmanCode();
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	{
+		string nameOfFile;
+		cout << "Enter name of file:" << endl;
+		cin >> nameOfFile;
+		HuffmanCode HuffmanGenerator(nameOfFile);
+		HuffmanGenerator.GenerateHuffmanCode();
 
+	}
 }

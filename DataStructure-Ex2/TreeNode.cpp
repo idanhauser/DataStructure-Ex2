@@ -1,27 +1,31 @@
 ﻿#include "TreeNode.h"
-
 #include <iostream>
+
+#include "Utils.h"
+#define new MYDEBUG_NEW
+#ifdef _DEBUG
+#define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#else
+#define MYDEBUG_NEW new
+#endif
 using namespace std;
 namespace HuffmanCoding
-
 {
-	TreeNode::TreeNode() :_right(nullptr), _left(nullptr)
+	TreeNode::TreeNode() :_data(NON_PRINTABLE_CHARACTER,-1),_left(nullptr), _right(nullptr)
 	{
 	}
 
-	TreeNode::TreeNode(Pair item, TreeNode* left, TreeNode* right) : _data(item), _left(left), _right(right)
+	TreeNode::TreeNode(const Pair& item, TreeNode* left, TreeNode* right) : _data(item), _left(left), _right(right)
 	{
 	}
 	TreeNode::~TreeNode()
 	{
-		if (_left != nullptr)
-		{
+
+
 			delete _left;
-		}
-		if (_right != nullptr)
-		{
-			delete _right;
-		}
+
+		delete _right;
+
 	}
 
 	Pair TreeNode::getData() const
@@ -29,12 +33,12 @@ namespace HuffmanCoding
 		return _data;
 	}
 
-	TreeNode* TreeNode::getLeft() const
+	 TreeNode* TreeNode::getLeft() const
 	{
 		return _left;
 	}
 
-	TreeNode* TreeNode::getRight() const 
+	 TreeNode* TreeNode::getRight() const 
 	{
 		return _right;
 	}
@@ -45,7 +49,6 @@ namespace HuffmanCoding
 		{
 			_left->Inorder();
 		}
-	//	cout << _data.key << " : " << _data.freq << endl;
 		if (_right != nullptr)
 		{
 			_right->Inorder();

@@ -2,24 +2,32 @@
 #include "TreeNode.h"
 #include<iostream>
 using namespace std;
-
+#define new MYDEBUG_NEW
+#ifdef _DEBUG
+#define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#else
+#define MYDEBUG_NEW new
+#endif
 namespace HuffmanCoding
 {
 	class BSTree
 	{
-	private:
-		TreeNode* _root;
 	public:
-
+		BSTree(const BSTree& other) = delete;
 		BSTree();
 		~BSTree();
 		void makeEmpty();
-		TreeNode* Find(const char key)const;
-		Pair FindMin(const char key) const ;
-		Pair FindMax(const char key) const;
-		void Insert(Pair item);
+		TreeNode* Find( char key)const;
+		Pair FindMin() const ;
+		Pair FindMax() const;
+		void Insert(Pair& item);
 		void Delete(char key);
 		void PrintTree() const;
 		 TreeNode* getRoot() const;
+		 int getSize() const;
+	private:
+		int _size;
+		TreeNode* _root;
+		const BSTree& operator=(const BSTree& other)=delete;
 	};
 }

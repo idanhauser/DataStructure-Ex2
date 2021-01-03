@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="BSTree.cpp" />
     <ClCompile Include="HuffmanCode.cpp" />
+    <ClCompile Include="Pair.cpp" />
     <ClCompile Include="TreeNode.cpp" />
     <ClCompile Include="DataStructure-Ex2.cpp" />
     <ClCompile Include="MinHeap.cpp" />
@@ -148,9 +149,10 @@
   <ItemGroup>
     <ClInclude Include="BSTree.h" />
     <ClInclude Include="HuffmanCode.h" />
+    <ClInclude Include="Pair.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="MinHeap.h" />
-    <ClInclude Include="Pair.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
