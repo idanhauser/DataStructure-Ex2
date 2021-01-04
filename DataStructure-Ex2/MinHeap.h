@@ -15,10 +15,11 @@ namespace HuffmanCoding
 	{
 	public:
 		MinHeap()=default;
-		MinHeap( int max);
+		MinHeap( int phySize);
 		MinHeap(TreeNode*& arr,const int size);
 		MinHeap(const MinHeap& other)=default;
 		~MinHeap();
+		void BuildHeap() const;
 		bool isEmpty() const;
 		void makeEmpty();
 		TreeNode* Min() const ;
@@ -36,6 +37,6 @@ namespace HuffmanCoding
 		static int Left(int node);
 		static int Right(int node);
 		static int Parent(int node);
-		void FixHeap(int node);
+		void FixHeap(int node) const;
 	};
 }

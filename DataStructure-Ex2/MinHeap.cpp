@@ -12,7 +12,7 @@ namespace HuffmanCoding
 {
 
 
-	MinHeap::MinHeap( int max) :_data(new TreeNode* [max]), _phySize(max), _heapSize(0), _allocated(true)
+	MinHeap::MinHeap( int phySize) :_data(new TreeNode* [phySize]), _phySize(phySize), _heapSize(0), _allocated(true)
 	{
 
 	}
@@ -20,11 +20,9 @@ namespace HuffmanCoding
 	MinHeap::MinHeap(TreeNode*& arr,const int size) : _phySize(size), _heapSize(size), _allocated(false)
 	{
 		_data = &arr;
-		for (int i = size / 2 - 1; i >= 0; i--)
-		{
-			FixHeap(i);
-		}
+
 	}
+
 	MinHeap::~MinHeap()
 	{
 		if (_allocated)
@@ -32,6 +30,14 @@ namespace HuffmanCoding
 			delete[] _data;
 		}
 		_data = nullptr;
+	}
+
+	void MinHeap::BuildHeap() const
+	{
+		for (int i = _phySize / 2 - 1; i >= 0; i--)
+		{
+			FixHeap(i);
+		}
 	}
 
 	bool MinHeap::isEmpty() const
@@ -64,7 +70,7 @@ namespace HuffmanCoding
 		return (node - 1) / 2;
 	}
 
-	void MinHeap::FixHeap(const int node)
+	void MinHeap::FixHeap(const int node) const
 	{
 		int min;
 		int left = Left(node);
@@ -102,7 +108,7 @@ namespace HuffmanCoding
 	{
 		TreeNode* MinTreeNode;
 		if (_heapSize == 0) {
-			cout << ("ERROR: heap underflow!") << endl;
+			cout << "ERROR: heap underflow! maybe file is empty?" << endl;
 			exit(1);
 		}
 		MinTreeNode = _data[0];
@@ -116,7 +122,7 @@ namespace HuffmanCoding
 	{
 		if (_phySize == _heapSize)
 		{
-			cout << ("ERROR: heap Overflow!") << endl;
+			cout << "ERROR: heap Overflow!" << endl;
 			exit(1);
 		}
 		int i = _heapSize;

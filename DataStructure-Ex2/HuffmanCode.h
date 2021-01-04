@@ -7,6 +7,8 @@
 #else
 #define MYDEBUG_NEW new
 #endif
+#include <sstream>
+#include <string>
 #include "BSTree.h"
 #include "MinHeap.h"
 using namespace std;
@@ -18,6 +20,7 @@ namespace HuffmanCoding
 	{
 	public:
 		void checkInput() const;
+		void PrintTable();
 		HuffmanCode()=delete;
 		HuffmanCode(const HuffmanCode& other)=delete;
 		const HuffmanCode& operator=(const HuffmanCode& other)=delete;
@@ -25,9 +28,11 @@ namespace HuffmanCoding
 		~HuffmanCode();
 		void ReadFromFile();
 		void buildHuffman();
+		void setCodes(TreeNode& huffNode, int* arr, int top);
+		void printCode(TreeNode& huffNode, int* arr, int top);
 		void GenerateHuffmanCode();
 		void convertBSTtoMinHeap(TreeNode* treeNode);
-		void printCodes(TreeNode& huffNode, int* arr,const int top);
+		string getCodesTable() const;
 	private:
 		int _sum;
 		int _maxSizeOfqueue;
@@ -39,6 +44,6 @@ namespace HuffmanCoding
 		TreeNode* _huffTree;
 		int heapSizeConst;
 		int _heapSizeConst;
-
+		string _codesTable;
 	};
 }    

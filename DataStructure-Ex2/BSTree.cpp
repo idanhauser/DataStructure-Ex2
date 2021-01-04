@@ -23,7 +23,6 @@ namespace  HuffmanCoding
 
 	void BSTree::makeEmpty()
 	{
-		//the pointers deleted on  HuffmanCode.cpp.
 		_root = nullptr;
 	}
 

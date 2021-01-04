@@ -22,8 +22,13 @@ namespace HuffmanCoding
 		}
 	}
 
+	void HuffmanCode::PrintTable()
+	{
+		cout << _codesTable << endl;
+	}
+
 	HuffmanCode::HuffmanCode(const string& nameFile) : _sum(0), _maxSizeOfqueue(0), _charsCounter(),_queue(),
-	                                                   _infile(nameFile), _Output(""), _isValid(true), _huffTree()
+	                                                   _infile(nameFile), _Output(""), _isValid(true), _huffTree(),_codesTable("")
 	{
 		ReadFromFile();//updating the member __maxSizeOfqueue
 		checkInput();
@@ -43,6 +48,7 @@ namespace HuffmanCoding
 	{
 		int counter = 0;
 		char val;
+		
 		if (!_infile) {
 			_Output = "Error with infile. \n";
 			_isValid = false;
@@ -63,6 +69,7 @@ namespace HuffmanCoding
 
 			_infile >> std::noskipws >> val;
 		}
+		
 		_infile.close();
 		cout << endl;
 		_maxSizeOfqueue = _charsCounter.getSize();
@@ -91,46 +98,58 @@ namespace HuffmanCoding
 		_huffTree = &(_queue.DeleteMin());
 	}
 
-	void HuffmanCode::printCodes(TreeNode& huffNode, int* arr,const int top)
+	void HuffmanCode::setCodes(TreeNode& huffNode, int* arr, const int top)
 	{
 		if (huffNode.getLeft()) {
 
 			arr[top] = 0;
-			printCodes(*huffNode.getLeft(), arr, top + 1);
+			setCodes(*huffNode.getLeft(), arr, top + 1);
 		}
 
 		if (huffNode.getRight()) {
 
 			arr[top] = 1;
-			printCodes(*huffNode.getRight(), arr, top + 1);
+			setCodes(*huffNode.getRight(), arr, top + 1);
 		}
+		printCode(huffNode, arr, top);
 
 
+	}
+	
+	void HuffmanCode::printCode(TreeNode& huffNode, int* arr, const int top)
+	{
 		if (huffNode.getRight() == nullptr && huffNode.getLeft() == nullptr) {
 			if (huffNode.getData().getKey() != '\n')
 			{
-				cout << "'" << huffNode.getData().getKey() << "' - ";
+				char ch =huffNode.getData().getKey();
+				_codesTable.append("'");
+				_codesTable+= ch;
+				_codesTable.append("' - ");
+
 			}
 			else
 			{
-				cout << "'" << "\\n" << "' - ";
+				_codesTable += "'";
+				_codesTable.append("\\");
+				_codesTable += "n' - ";
+				
+				
 			}
 			_sum += top * huffNode.getData().getFreq();
 			for (int i = 0; i < top; ++i)
 			{
-				cout << arr[i];
+				_codesTable +=std::to_string(arr[i]);
 
 			}
-			if(top==0)
+			if (top == 0)
 			{
-				cout << arr[top];
+				_codesTable += std::to_string(arr[top]);
 				_sum += huffNode.getData().getFreq();
 			}
-
-			cout << endl;
+			_codesTable.append("\n");
 
 		}
-
+	
 	}
 
 	void HuffmanCode::GenerateHuffmanCode()
@@ -140,9 +159,11 @@ namespace HuffmanCoding
 		int size = _queue.getPhyHeapSize();
 		int* arr = new int[size];
 		arr[0] = 1;
-		cout << "Character encoding:" << endl;
-		printCodes(*_huffTree, arr, 0);
-		cout << "Encoded file weight: " << _sum << " bits.";
+		_codesTable += "Character encoding:";
+		_codesTable.append("\n");
+		setCodes(*_huffTree, arr, 0);
+		_codesTable += "\nEncoded file weight: " + to_string(_sum)+"\n";
+		
 		delete[] arr;
 	}
 
@@ -158,5 +179,10 @@ namespace HuffmanCoding
 		treeNode->setright(nullptr);
 		_queue.insert(*treeNode);
 	
+	}
+
+	string HuffmanCode::getCodesTable() const
+	{
+		return _codesTable;
 	}
 }
