@@ -25,7 +25,7 @@ namespace HuffmanCoding
 		TreeNode* getRight() const ;
 		void Inorder() const ;
 		void setLeft(TreeNode* left);
-		void setright(TreeNode* right);
+		void setRight(TreeNode* right);
 		friend class BSTree;
 		friend class MinHeap;
 	private:

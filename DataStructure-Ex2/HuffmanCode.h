@@ -19,31 +19,37 @@ namespace HuffmanCoding
 	class HuffmanCode
 	{
 	public:
+		HuffmanCode(const string& nameFile);
 		void checkInput() const;
-		void PrintTable();
 		HuffmanCode()=delete;
 		HuffmanCode(const HuffmanCode& other)=delete;
 		const HuffmanCode& operator=(const HuffmanCode& other)=delete;
-		HuffmanCode(const string& nameFile);
 		~HuffmanCode();
-		void ReadFromFile();
-		void buildHuffman();
-		void setCodes(TreeNode& huffNode, int* arr, int top);
-		void printCode(TreeNode& huffNode, int* arr, int top);
 		void GenerateHuffmanCode();
-		void convertBSTtoMinHeap(TreeNode* treeNode);
 		string getCodesTable() const;
+		bool isValid() const;
+		int getWeightOfHuffman() const;
+		friend ostream& operator<<(ostream& os, const HuffmanCode& table);
+
+		
 	private:
+	//members:
 		int _sum;
-		int _maxSizeOfqueue;
+		int _phySizeOfqueue;
 		BSTree _charsCounter;
-		MinHeap _queue;
+		MinHeap _mQueue;
 		ifstream _infile;
 		string _Output;
 		bool _isValid;
 		TreeNode* _huffTree;
 		int heapSizeConst;
-		int _heapSizeConst;
 		string _codesTable;
+		//functions
+		void setCodes(TreeNode& huffNode, int* arr, int top);
+		void storeCodeInTable(TreeNode& huffNode, int* arr, int top);
+		void readFromFile();
+		void buildHuffman();
+		void convertBSTtoMinHeap(TreeNode* treeNode);
+
 	};
 }    

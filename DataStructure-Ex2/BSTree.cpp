@@ -31,12 +31,13 @@ namespace  HuffmanCoding
 		bool isFound = false;
 		TreeNode* founded = nullptr;
 		TreeNode* temp = _root;
-		while ((temp != nullptr) && (!founded))
+		while ((temp != nullptr) && (!isFound))
 		{
 			const char keyNode = temp->_data.getKey();
 			if (key == keyNode)
 			{
 				founded = temp;
+				isFound = true;
 			}
 
 			if (key < keyNode)
@@ -122,33 +123,33 @@ namespace  HuffmanCoding
 
 	void BSTree::Delete(char key)
 	{
-		TreeNode* curr = _root;
+		TreeNode* pCurr = _root;
 		TreeNode* prev = nullptr;
-		while (curr != nullptr && curr->_data.getKey() != key) {
-			prev = curr;
-			if (key < curr->_data.getKey())
+		while (pCurr != nullptr && pCurr->_data.getKey() != key) {
+			prev = pCurr;
+			if (key < pCurr->_data.getKey())
 			{
-				curr = curr->_left;
+				pCurr = pCurr->_left;
 			}
 			else {
-				curr = curr->_right;
+				pCurr = pCurr->_right;
 			}
 		}
-		if (curr == nullptr) {
+		if (pCurr == nullptr) {
 			cout << "ERROR: Key " << key
 				<< " not found in the"
 				<< " provided BST.\n";
 			exit(1);
 		}
-		if (curr->_left == nullptr || curr->_right == nullptr) {
+		if (pCurr->_left == nullptr || pCurr->_right == nullptr) {
 			TreeNode* newCurr;
-			if (curr->_left == nullptr)
+			if (pCurr->_left == nullptr)
 			{
-				newCurr = curr->_right;
+				newCurr = pCurr->_right;
 			}
 			else
 			{
-				newCurr = curr->_left;
+				newCurr = pCurr->_left;
 			}
 
 			if (prev == nullptr)
@@ -156,19 +157,19 @@ namespace  HuffmanCoding
 				return;
 			}
 
-			if (curr == prev->_left)
+			if (pCurr == prev->_left)
 			{
 				prev->_left = newCurr;
 			}
 			else {
 				prev->_right = newCurr;
 			}
-			delete curr;
+			delete pCurr;
 		}
 		else {
 			TreeNode* p = nullptr;
 
-			TreeNode* temp = curr->_right;
+			TreeNode* temp = pCurr->_right;
 			while (temp->_left != nullptr) {
 				p = temp;
 				temp = temp->_left;
@@ -179,19 +180,26 @@ namespace  HuffmanCoding
 			}
 			else
 			{
-				curr->_right = temp->_right;
+				pCurr->_right = temp->_right;
 			}
-			curr->_data.setKey(temp->_data.getKey());
+			pCurr->_data.setKey(temp->_data.getKey());
 			delete temp;
 		}
 	}
 
-	void BSTree::PrintTree() const
+
+	void BSTree::PrintTree(TreeNode* tNode) const
 	{
 		if (_root != nullptr)
 		{
-			_root->Inorder();
+			PrintTree(tNode->_left);
+
+			cout << (tNode->_data) << " ";
+
+	
+			PrintTree(tNode->_right);
 		}
+
 	}
 
 	TreeNode* BSTree::getRoot() const

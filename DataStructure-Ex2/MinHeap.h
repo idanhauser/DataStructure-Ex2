@@ -15,7 +15,7 @@ namespace HuffmanCoding
 	{
 	public:
 		MinHeap()=default;
-		MinHeap( int phySize);
+		MinHeap(int phySize);
 		MinHeap(TreeNode*& arr,const int size);
 		MinHeap(const MinHeap& other)=default;
 		~MinHeap();
@@ -25,11 +25,14 @@ namespace HuffmanCoding
 		TreeNode* Min() const ;
 		TreeNode& DeleteMin();
 		void insert(TreeNode& item);
-		void printHeap() const;
 		int getHeapSize() const;
 		int getPhyHeapSize() const;
+		bool getIsAllocated()const;
 		MinHeap& operator=(const MinHeap& other);
-	private:
+		friend ostream& operator<<(ostream& os, const MinHeap& queue);
+
+		
+		private:
 		TreeNode** _data;
 		int _phySize;
 		int _heapSize;

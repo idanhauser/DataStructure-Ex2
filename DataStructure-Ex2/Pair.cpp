@@ -34,6 +34,11 @@ namespace HuffmanCoding
 		return _freq;
 	}
 
+	const Pair& Pair::getPair() const
+	{
+		return  *this;
+	}
+
 	bool Pair::setKey(const char key) 
 	{
 		_key = key;
@@ -49,5 +54,11 @@ namespace HuffmanCoding
 	void Pair::operator++(int)
 	{
 		_freq++;
+	}
+
+	ostream& operator<<(ostream& os, const Pair& pair)
+	{
+		os << pair.getKey() << ":" << pair.getFreq() << endl;
+		return os;
 	}
 }

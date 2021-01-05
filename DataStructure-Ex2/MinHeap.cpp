@@ -12,12 +12,12 @@ namespace HuffmanCoding
 {
 
 
-	MinHeap::MinHeap( int phySize) :_data(new TreeNode* [phySize]), _phySize(phySize), _heapSize(0), _allocated(true)
+	MinHeap::MinHeap(int phySize) :_data(new TreeNode* [phySize]), _phySize(phySize), _heapSize(0), _allocated(true)
 	{
 
 	}
 
-	MinHeap::MinHeap(TreeNode*& arr,const int size) : _phySize(size), _heapSize(size), _allocated(false)
+	MinHeap::MinHeap(TreeNode*& arr, const int size) : _phySize(size), _heapSize(size), _allocated(false)
 	{
 		_data = &arr;
 
@@ -55,7 +55,7 @@ namespace HuffmanCoding
 		return *_data;
 	}
 
-	int MinHeap::Left(const int node)  
+	int MinHeap::Left(const int node)
 	{
 		return (2 * node + 1);
 	}
@@ -135,14 +135,6 @@ namespace HuffmanCoding
 		_data[i] = &item;
 	}
 
-	void MinHeap::printHeap() const
-	{
-		cout << "print arr" << endl;
-		for (int i = 0; i < _heapSize; ++i)
-		{
-			cout << (_data[i])->getData().getKey() << ":" << (_data[i])->getData().getFreq() << endl;
-		}
-	}
 
 	int MinHeap::getHeapSize() const
 	{
@@ -154,7 +146,12 @@ namespace HuffmanCoding
 		return _phySize;
 	}
 
-	 MinHeap& MinHeap::operator=(const MinHeap& other)
+	bool MinHeap::getIsAllocated() const
+	{
+		return _allocated;
+	}
+
+	MinHeap& MinHeap::operator=(const MinHeap& other)
 	{
 		if (this != &other)
 		{
@@ -164,5 +161,14 @@ namespace HuffmanCoding
 			_data = new TreeNode * [_phySize];
 		}
 		return *this;
+	}
+
+	ostream& operator<<(ostream& os, const MinHeap& queue)
+	{
+		for (int i = 0; i < queue._heapSize; ++i)
+		{
+			os << queue._data[i]->getData();
+		}
+		return os;
 	}
 }

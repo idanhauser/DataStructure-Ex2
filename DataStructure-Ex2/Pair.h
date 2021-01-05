@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <ostream>
+using namespace std;
 #define new MYDEBUG_NEW
 #ifdef _DEBUG
 #define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
@@ -14,12 +16,14 @@ namespace HuffmanCoding
 		Pair();
 		Pair(char key, int freq);
 		Pair(const Pair& other);
-		~Pair()=default;
+		~Pair() = default;
 		char getKey() const;
 		int getFreq() const;
-		bool setKey(const char key);
-		bool setFreq(const int freq);
-		void operator++(int );
+		const Pair& getPair() const;
+		bool setKey(char key);
+		bool setFreq(int freq);
+		void operator++(int);
+		friend ostream& operator<<(ostream& os, const Pair& pair);
 		//good to use defult operator for =
 	private:
 		char _key;

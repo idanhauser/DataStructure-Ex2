@@ -26,6 +26,7 @@ int main()
 		cin >> nameOfFile;
 		HuffmanCode HuffmanGenerator(nameOfFile);
 		HuffmanGenerator.GenerateHuffmanCode();
-		HuffmanGenerator.PrintTable();
+		cout << HuffmanGenerator << endl;
+
 	}
 }

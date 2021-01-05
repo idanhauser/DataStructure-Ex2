@@ -22,12 +22,13 @@ namespace HuffmanCoding
 		Pair FindMax() const;
 		void Insert(Pair& item);
 		void Delete(char key);
-		void PrintTree() const;
+		 void PrintTree(TreeNode* tNode) const ;
 		 TreeNode* getRoot() const;
 		 int getSize() const;
+		 const BSTree& operator=(const BSTree& other) = delete;
 	private:
 		int _size;
 		TreeNode* _root;
-		const BSTree& operator=(const BSTree& other)=delete;
+
 	};
 }

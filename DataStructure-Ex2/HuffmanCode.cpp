@@ -22,18 +22,14 @@ namespace HuffmanCoding
 		}
 	}
 
-	void HuffmanCode::PrintTable()
-	{
-		cout << _codesTable << endl;
-	}
 
-	HuffmanCode::HuffmanCode(const string& nameFile) : _sum(0), _maxSizeOfqueue(0), _charsCounter(),_queue(),
+	HuffmanCode::HuffmanCode(const string& nameFile) : _sum(0), _phySizeOfqueue(0), _charsCounter(),_mQueue(),
 	                                                   _infile(nameFile), _Output(""), _isValid(true), _huffTree(),_codesTable("")
 	{
-		ReadFromFile();//updating the member __maxSizeOfqueue
+		readFromFile();//updating the member __maxSizeOfqueue
 		checkInput();
 	
-		_queue = MinHeap(_maxSizeOfqueue);//init queue
+		_mQueue = MinHeap(_phySizeOfqueue);//init queue
 		
 	}
 
@@ -44,9 +40,8 @@ namespace HuffmanCoding
 
 	}
 
-	void HuffmanCode::ReadFromFile()
+	void HuffmanCode::readFromFile()
 	{
-		int counter = 0;
 		char val;
 		
 		if (!_infile) {
@@ -65,14 +60,12 @@ namespace HuffmanCoding
 
 			Pair data(val,0);
 			_charsCounter.Insert(data);
-			counter++;
-
 			_infile >> std::noskipws >> val;
 		}
 		
 		_infile.close();
 		cout << endl;
-		_maxSizeOfqueue = _charsCounter.getSize();
+		_phySizeOfqueue = _charsCounter.getSize();
 	}
 
 	void HuffmanCode::buildHuffman()
@@ -81,21 +74,21 @@ namespace HuffmanCoding
 		TreeNode* minNode2;
 		TreeNode* newNode;
 		Pair item(NON_PRINTABLE_CHARACTER,0);
-		const int size = _queue.getHeapSize() - 1; 
+		const int size = _mQueue.getHeapSize() - 1; 
 
 
 		for (int i = 0; i < size; i++) {
 
 
-			minNode1 = &_queue.DeleteMin();
-			minNode2 = &_queue.DeleteMin();
+			minNode1 = &_mQueue.DeleteMin();
+			minNode2 = &_mQueue.DeleteMin();
 			item.setFreq(minNode1->getData().getFreq() + minNode2->getData().getFreq());
 			newNode = new TreeNode(item, minNode1, minNode2);
 
 
-			_queue.insert(*newNode);
+			_mQueue.insert(*newNode);
 		}
-		_huffTree = &(_queue.DeleteMin());
+		_huffTree = &(_mQueue.DeleteMin());
 	}
 
 	void HuffmanCode::setCodes(TreeNode& huffNode, int* arr, const int top)
@@ -111,12 +104,12 @@ namespace HuffmanCoding
 			arr[top] = 1;
 			setCodes(*huffNode.getRight(), arr, top + 1);
 		}
-		printCode(huffNode, arr, top);
+		storeCodeInTable(huffNode, arr, top);
 
 
 	}
 	
-	void HuffmanCode::printCode(TreeNode& huffNode, int* arr, const int top)
+	void HuffmanCode::storeCodeInTable(TreeNode& huffNode, int* arr, const int top)
 	{
 		if (huffNode.getRight() == nullptr && huffNode.getLeft() == nullptr) {
 			if (huffNode.getData().getKey() != '\n')
@@ -128,7 +121,7 @@ namespace HuffmanCoding
 
 			}
 			else
-			{
+			{//we need to print "new line char '\n'
 				_codesTable += "'";
 				_codesTable.append("\\");
 				_codesTable += "n' - ";
@@ -156,7 +149,7 @@ namespace HuffmanCoding
 	{
 		convertBSTtoMinHeap(_charsCounter.getRoot());
 		buildHuffman();
-		int size = _queue.getPhyHeapSize();
+		int size = _mQueue.getPhyHeapSize();
 		int* arr = new int[size];
 		arr[0] = 1;
 		_codesTable += "Character encoding:";
@@ -176,13 +169,31 @@ namespace HuffmanCoding
 		convertBSTtoMinHeap(treeNode->getLeft());
 		convertBSTtoMinHeap(treeNode->getRight());
 		treeNode->setLeft(nullptr);
-		treeNode->setright(nullptr);
-		_queue.insert(*treeNode);
-	
+		treeNode->setRight(nullptr);
+		_mQueue.insert(*treeNode);
+
 	}
 
 	string HuffmanCode::getCodesTable() const
 	{
 		return _codesTable;
+	}
+
+	bool HuffmanCode::isValid() const
+	{
+		return _isValid;
+	}
+
+	int HuffmanCode::getWeightOfHuffman() const
+	{
+		return _sum;
+	}
+
+	ostream& operator<<(ostream& os, const HuffmanCode& table)
+	{
+		os << table._codesTable;
+		
+		return os;
+		
 	}
 }

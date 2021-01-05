@@ -60,7 +60,7 @@ namespace HuffmanCoding
 		_left = left;
 	}
 
-	void TreeNode::setright(TreeNode* right)
+	void TreeNode::setRight(TreeNode* right)
 	{
 		_right = right;
 	}
