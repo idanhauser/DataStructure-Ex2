@@ -43,13 +43,11 @@ namespace HuffmanCoding
 	void HuffmanCode::readFromFile()
 	{
 		char val;
-		
 		if (!_infile) {
 			_Output = "Error with infile. \n";
 			_isValid = false;
 			return;
 		}
-
 		_infile >> std::noskipws >> val;
 		while (!_infile.eof()) {
 			if (!_infile.good()) {
@@ -62,7 +60,6 @@ namespace HuffmanCoding
 			_charsCounter.Insert(data);
 			_infile >> std::noskipws >> val;
 		}
-		
 		_infile.close();
 		cout << endl;
 		_phySizeOfqueue = _charsCounter.getSize();
@@ -124,9 +121,7 @@ namespace HuffmanCoding
 			{//we need to print "new line char '\n'
 				_codesTable += "'";
 				_codesTable.append("\\");
-				_codesTable += "n' - ";
-				
-				
+				_codesTable += "n' - ";	
 			}
 			_sum += top * huffNode.getData().getFreq();
 			for (int i = 0; i < top; ++i)
