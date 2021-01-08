@@ -1,7 +1,7 @@
 
 //Idan Hasuer 205542549
 //Roee Habari - tamir 205666985
-
+#include <stdlib.h>
 #include <ostream>
 #include <string>
 #include "HuffmanCode.h"
