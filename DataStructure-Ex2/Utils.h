@@ -3,6 +3,5 @@
 using namespace std;
 namespace HuffmanCoding
 {
-	const int NON_PRINTABLE_CHARACTER = NON_PRINTABLE_CHARACTER;
-
+	const int NON_PRINTABLE_CHARACTER = 7;
 }

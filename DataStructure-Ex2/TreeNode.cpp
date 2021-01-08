@@ -1,13 +1,6 @@
 ﻿#include "TreeNode.h"
-#include <iostream>
-
 #include "Utils.h"
-#define new MYDEBUG_NEW
-#ifdef _DEBUG
-#define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
-#else
-#define MYDEBUG_NEW new
-#endif
+
 using namespace std;
 namespace HuffmanCoding
 {

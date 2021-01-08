@@ -2,12 +2,7 @@
 #include<iostream>
 #include <stdlib.h>
 #include "Pair.h"
-#define new MYDEBUG_NEW
-#ifdef _DEBUG
-#define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
-#else
-#define MYDEBUG_NEW new
-#endif
+
 using namespace std;
 
 namespace  HuffmanCoding
@@ -26,6 +21,11 @@ namespace  HuffmanCoding
 		_root = nullptr;
 	}
 
+	/// <summary>
+	/// function to search a given key in a given BST 
+	/// </summary>
+	/// <param name="key">the key we search in the key</param>
+	/// <returns>the node we searched for</returns>
 	TreeNode* BSTree::Find(const char key) const
 	{
 		bool isFound = false;
@@ -52,7 +52,12 @@ namespace  HuffmanCoding
 
 		return founded;
 	}
-	/* loop down to find the leftmost leaf */
+
+
+	/// <summary>
+	/// 	/* loop down to find the left most leaf in the bst */
+	/// </summary>
+	/// <returns>the minimum in the tree</returns>
 	Pair BSTree::FindMin() const
 	{
 		TreeNode* current = _root;
@@ -65,7 +70,12 @@ namespace  HuffmanCoding
 
 		return current->_data;
 	}
-	/* loop down to find the rightmost leaf */
+
+
+	/// <summary>
+	/// 	/* loop down to find the right most leaf in the bst*/
+	/// </summary>
+	/// <returns>the maximum in the tree</returns>
 	Pair BSTree::FindMax() const
 	{
 		TreeNode* current = _root;
@@ -78,16 +88,22 @@ namespace  HuffmanCoding
 	}
 
 
-
+	/// <summary>
+	/// This function inserts the item by it's key to the bst.
+	/// If the key is already exist we add one to the frequency of the pair. 
+	/// </summary>
+	/// <param name="item">the pair we want to insert into the tree</param>
 	void BSTree::Insert(Pair& item)
 	{
+		//we need to check if the key is already exist in the tree
 		TreeNode* temp = Find(item.getKey());
 		if (temp != nullptr)
 		{
+			//if the pair is already exist we add 1 to frequency with operator++
 			temp->_data++;
 		}
 		else
-		{
+		{//the pair doesn't exist in the tree, lets add to the tree, in the right place.
 			temp = _root;
 			TreeNode* parent = nullptr;
 			item++;
@@ -120,7 +136,10 @@ namespace  HuffmanCoding
 			}
 		}
 	}
-
+	/// <summary>
+	/// This function delete a pair by its key from the bst
+	/// </summary>
+	/// <param name="key">the key we want to remove from the tree.</param>
 	void BSTree::Delete(char key)
 	{
 		TreeNode* pCurr = _root;
@@ -187,17 +206,20 @@ namespace  HuffmanCoding
 		}
 	}
 
-
-	void BSTree::PrintTree(TreeNode* tNode) const
+	/// <summary>
+	/// prints the bst by inorder travse.
+	/// </summary>
+	/// <param name="tNode">the root if the bst </param>
+	void BSTree::printTree(TreeNode* tNode) const
 	{
 		if (_root != nullptr)
 		{
-			PrintTree(tNode->_left);
+			printTree(tNode->_left);
 
 			cout << (tNode->_data) << " ";
 
 	
-			PrintTree(tNode->_right);
+			printTree(tNode->_right);
 		}
 
 	}
@@ -206,7 +228,10 @@ namespace  HuffmanCoding
 	{
 		return _root;
 	}
-
+	/// <summary>
+	/// the number of nodes in three
+	/// </summary>
+	/// <returns>number of nodes in  the tree.</returns>
 	int BSTree::getSize() const
 	{
 		return _size;

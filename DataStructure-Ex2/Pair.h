@@ -1,17 +1,10 @@
 ﻿#pragma once
 #include <ostream>
 using namespace std;
-#define new MYDEBUG_NEW
-#ifdef _DEBUG
-#define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
-#else
-#define MYDEBUG_NEW new
-#endif
 namespace HuffmanCoding
 {
 	class Pair
 	{
-
 	public:
 		Pair();
 		Pair(char key, int freq);
@@ -23,7 +16,7 @@ namespace HuffmanCoding
 		bool setKey(char key);
 		bool setFreq(int freq);
 		void operator++(int);
-		friend ostream& operator<<(ostream& os, const Pair& pair);
+		friend std::ostream& operator<<(ostream& os, const Pair& pair);
 		//good to use defult operator for =
 	private:
 		char _key;

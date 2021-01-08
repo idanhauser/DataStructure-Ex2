@@ -1,13 +1,8 @@
 ﻿#pragma once
 #include <fstream>
 
-#define new MYDEBUG_NEW
-#ifdef _DEBUG
-#define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
-#else
-#define MYDEBUG_NEW new
-#endif
-#include <sstream>
+
+
 #include <string>
 #include "BSTree.h"
 #include "MinHeap.h"
@@ -22,15 +17,14 @@ namespace HuffmanCoding
 		HuffmanCode(const string& nameFile);
 		void checkInput() const;
 		HuffmanCode()=delete;
-		HuffmanCode(const HuffmanCode& other)=delete;
-		const HuffmanCode& operator=(const HuffmanCode& other)=delete;
 		~HuffmanCode();
 		void GenerateHuffmanCode();
 		string getCodesTable() const;
 		bool isValid() const;
 		int getWeightOfHuffman() const;
 		friend ostream& operator<<(ostream& os, const HuffmanCode& table);
-
+		HuffmanCode(const HuffmanCode& other) = delete;
+		const HuffmanCode& operator=(const HuffmanCode& other) = delete;
 		
 	private:
 	//members:
@@ -42,8 +36,9 @@ namespace HuffmanCoding
 		string _Output;
 		bool _isValid;
 		TreeNode* _huffTree;
-		int heapSizeConst;
+		int _heapSizeConst;
 		string _codesTable;
+
 		//functions
 		void setCodes(TreeNode& huffNode, int* arr, int top);
 		void storeCodeInTable(TreeNode& huffNode, int* arr, int top);

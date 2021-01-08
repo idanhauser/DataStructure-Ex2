@@ -1,11 +1,6 @@
 ﻿#pragma once
 #include "Pair.h"
-#define new MYDEBUG_NEW
-#ifdef _DEBUG
-#define MYDEBUG_NEW new(_NORMAL_BLOCK,__FILE__,__LINE__)
-#else
-#define MYDEBUG_NEW new
-#endif
+
 #include "TreeNode.h"
 using namespace std;
 
@@ -17,7 +12,6 @@ namespace HuffmanCoding
 		MinHeap()=default;
 		MinHeap(int phySize);
 		MinHeap(TreeNode*& arr,const int size);
-		MinHeap(const MinHeap& other)=default;
 		~MinHeap();
 		void BuildHeap() const;
 		bool isEmpty() const;
@@ -29,6 +23,7 @@ namespace HuffmanCoding
 		int getPhyHeapSize() const;
 		bool getIsAllocated()const;
 		MinHeap& operator=(const MinHeap& other);
+		MinHeap(const MinHeap& other) = default;
 		friend ostream& operator<<(ostream& os, const MinHeap& queue);
 
 		
